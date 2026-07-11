@@ -32,14 +32,14 @@
 
           <div>
             <label class="mb-1 block text-sm font-medium">
-              Nombre
+              Nombre 
             </label>
 
             <input
               v-model="form.nombre"
               type="text"
               required
-              class="w-full rounded-lg border p-2"
+              class="w-full rounded-lg border p-2" 
             />
           </div>
 
@@ -68,6 +68,7 @@
               type="text"
               required
               class="w-full rounded-lg border p-2"
+              maxlength="9"
             />
           </div>
 
@@ -82,6 +83,7 @@
               type="text"
               required
               class="w-full rounded-lg border p-2"
+              maxlength="8"
             />
           </div>
 
