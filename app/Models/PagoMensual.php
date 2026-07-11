@@ -17,15 +17,17 @@ class PagoMensual extends Model
         'agua_pagado',
         'monto_luz',
         'luz_pagado',
-        'fecha_pagado',
+        'mensual_monto',
+        'mensual_pagado',
     ];
 
     protected $casts = [
         'agua_pagado' => 'boolean',
         'luz_pagado' => 'boolean',
-        'fecha_pagado' => 'boolean',
+        'mensual_pagado' => 'boolean',
         'monto_agua' => 'decimal:2',
         'monto_luz' => 'decimal:2',
+        'mensual_monto' => 'decimal:2',
     ];
 
     public function inquilino()

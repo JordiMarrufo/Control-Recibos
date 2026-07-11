@@ -53,14 +53,32 @@
             </div>
           </div>
 
-          <!-- Estado Alquiler -->
+          <!-- Mensualidad -->
           <div>
             <label class="mb-1 block text-sm font-medium text-slate-600">
-              Estado Alquiler
+              Monto Mensual
+            </label>
+
+            <div class="relative">
+              <DollarSign class="absolute top-3 left-3 h-4 w-4 text-slate-400" />
+
+              <input
+                v-model="form.mensual_monto"
+                type="number"
+                step="0.01"
+                required
+                class="w-full rounded-lg border border-slate-300 py-2 pr-3 pl-10 focus:border-blue-500 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium text-slate-600">
+              Estado Mensualidad
             </label>
 
             <select
-              v-model="form.alquiler_pagado"
+              v-model="form.mensual_pagado"
               class="w-full rounded-lg border border-slate-300 px-3 py-2"
             >
               <option :value="false">Pendiente</option>
@@ -188,7 +206,8 @@ const inquilinos = ref<any[]>([]);
 
 const form = reactive({
   inquilino_id: '',
-  alquiler_pagado: false,
+  mensual_monto: '',
+  mensual_pagado: false,
   monto_agua: '',
   agua_pagado: false,
   monto_luz: '',
@@ -197,7 +216,8 @@ const form = reactive({
 
 const abrirModal = () => {
   form.inquilino_id = props.pago.inquilino_id;
-  form.alquiler_pagado = !!props.pago.alquiler_pagado;
+  form.mensual_monto = props.pago.mensual_monto;
+  form.mensual_pagado = !!props.pago.mensual_pagado;
   form.monto_agua = props.pago.monto_agua;
   form.agua_pagado = !!props.pago.agua_pagado;
   form.monto_luz = props.pago.monto_luz;
@@ -212,10 +232,11 @@ const actualizarPago = async () => {
   try {
     await axios.put(`/pagoMensualinquilino/${props.pago.id}`, {
       inquilino_id: form.inquilino_id,
-      alquiler_pagado: form.alquiler_pagado,
-      monto_agua: form.monto_agua,
+      mensual_monto: parseFloat(String(form.mensual_monto)) || 0,
+      mensual_pagado: form.mensual_pagado,
+      monto_agua: parseFloat(String(form.monto_agua)) || 0,
       agua_pagado: form.agua_pagado,
-      monto_luz: form.monto_luz,
+      monto_luz: parseFloat(String(form.monto_luz)) || 0,
       luz_pagado: form.luz_pagado,
     });
 
@@ -223,8 +244,8 @@ const actualizarPago = async () => {
 
     // Si usas Inertia puedes reemplazar esto por router.reload()
     window.location.reload();
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.error(error.response?.data ?? error);
   } finally {
     loading.value = false;
   }

@@ -29,7 +29,8 @@ class PagoMensual_Controller extends Controller
             'agua_pagado' => 'boolean',
             'monto_luz' => 'required|numeric',
             'luz_pagado' => 'boolean',
-            'fecha_pagado' => 'boolean',
+            'mensual_monto' => 'required|numeric',
+            'mensual_pagado' => 'boolean',
         ]);
 
 
@@ -43,15 +44,15 @@ class PagoMensual_Controller extends Controller
     }
 
 
-    public function show(PagoMensual $pagoMensual)
+    public function show(PagoMensual $pagoMensualinquilino)
     {
         return response()->json(
-            $pagoMensual->load('inquilino')
+            $pagoMensualinquilino->load('inquilino')
         );
     }
 
 
-    public function edit(PagoMensual $pagoMensual)
+    public function edit(PagoMensual $pagoMensualinquilino)
     {
         //
     }
@@ -64,7 +65,8 @@ class PagoMensual_Controller extends Controller
             'agua_pagado' => 'sometimes|boolean',
             'monto_luz' => 'sometimes|numeric',
             'luz_pagado' => 'sometimes|boolean',
-            'fecha_pagado' => 'sometimes|boolean',
+            'mensual_monto' => 'sometimes|numeric',
+            'mensual_pagado' => 'sometimes|boolean',
         ]);
 
 
@@ -78,9 +80,9 @@ class PagoMensual_Controller extends Controller
     }
 
 
-    public function destroy(PagoMensual $pagoMensual)
+    public function destroy(PagoMensual $pagoMensualinquilino)
     {
-        $pagoMensual->delete();
+        $pagoMensualinquilino->delete();
 
 
         return response()->json([

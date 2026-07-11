@@ -59,16 +59,27 @@
             </div>
           </div>
 
-          <!-- Alquiler -->
+          <!-- Mensualidad -->
           <div>
             <label class="mb-1 block text-sm font-medium text-slate-600">
-              Estado Alquiler
+              Monto Mensual
             </label>
 
-            <select v-model="form.alquiler_pagado"
-              class="w-full rounded-lg border border-slate-300 px-3 py-2 focus:border-blue-500 focus:outline-none">
-              <option :value="false">Pendiente</option>
+            <div class="relative">
+              <DollarSign class="absolute top-3 left-3 h-4 w-4 text-slate-400" />
 
+              <input v-model="form.mensual_monto" type="number" step="0.01" required
+                class="w-full rounded-lg border border-slate-300 py-2 pr-3 pl-10 focus:border-blue-500 focus:outline-none" />
+            </div>
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium text-slate-600">
+              Estado Mensualidad
+            </label>
+
+            <select v-model="form.mensual_pagado" class="w-full rounded-lg border border-slate-300 px-3 py-2">
+              <option :value="false">Pendiente</option>
               <option :value="true">Pagado</option>
             </select>
           </div>
@@ -193,14 +204,13 @@ const inquilinos = ref<any[]>([]);
 const form = reactive({
   inquilino_id: '',
 
-  alquiler_pagado: false,
+  mensual_monto: '',
+  mensual_pagado: false,
 
   monto_agua: '',
-
   agua_pagado: false,
 
   monto_luz: '',
-
   luz_pagado: false,
 });
 
@@ -211,14 +221,13 @@ const guardarPago = async () => {
     await axios.post('/pagoMensualinquilino', {
       inquilino_id: form.inquilino_id,
 
-      alquiler_pagado: form.alquiler_pagado,
+      mensual_monto: parseFloat(String(form.mensual_monto)) || 0,
+      mensual_pagado: form.mensual_pagado,
 
-      monto_agua: form.monto_agua,
-
+      monto_agua: parseFloat(String(form.monto_agua)) || 0,
       agua_pagado: form.agua_pagado,
 
-      monto_luz: form.monto_luz,
-
+      monto_luz: parseFloat(String(form.monto_luz)) || 0,
       luz_pagado: form.luz_pagado,
     });
 
@@ -226,7 +235,8 @@ const guardarPago = async () => {
     showSuccessModal.value = true;
 
     form.inquilino_id = '';
-    form.alquiler_pagado = false;
+    form.mensual_monto = '';
+    form.mensual_pagado = false;
     form.monto_agua = '';
     form.agua_pagado = false;
     form.monto_luz = '';

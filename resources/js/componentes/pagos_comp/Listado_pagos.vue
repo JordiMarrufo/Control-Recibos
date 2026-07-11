@@ -27,7 +27,8 @@
                         <th class="px-4 py-3">Estado Agua</th>
                         <th class="px-4 py-3">Luz</th>
                         <th class="px-4 py-3">Estado Luz</th>
-                        <th class="px-4 py-3">Fecha</th>
+                        <th class="px-4 py-3">Mensualidad</th>
+                        <th class="px-4 py-3">Estado Mensualidad</th>
                         <th class="px-4 py-3">Botones</th>
                     </tr>
                 </thead>
@@ -82,8 +83,11 @@
 
 
                         <td class="px-4 py-3">
+                            S/ {{ pago.mensual_monto }}
+                        </td>
 
-                            <span v-if="pago.fecha_pago"
+                        <td class="px-4 py-3">
+                            <span v-if="pago.mensual_pagado"
                                 class="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">
                                 Pagado
                             </span>
@@ -91,12 +95,16 @@
                             <span v-else class="rounded-full bg-red-100 px-3 py-1 text-sm text-red-700">
                                 Pendiente
                             </span>
-
                         </td>
-                        <td class="px-4 py-3">
+                        <td class="px-4 py-3 flex items-center gap-2">
+                            <Update_pagos :pago="pago" />
 
-                            <Update_pagos :pago="pago"  />
-
+                            <button
+                                @click="eliminarPago(pago.id)"
+                                class="rounded-lg bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+                            >
+                                Eliminar
+                            </button>
                         </td>
 
 
@@ -104,7 +112,7 @@
 
 
                     <tr v-if="pagos.length === 0">
-                        <td colspan="6" class="py-8 text-center text-slate-500">
+                        <td colspan="8" class="py-8 text-center text-slate-500">
                             No hay pagos registrados
                         </td>
                     </tr>
@@ -124,7 +132,6 @@
 
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { update } from '@/routes/profile';
 import Update_pagos from './update_pagos.vue';
 
 
@@ -163,6 +170,18 @@ const formatearFecha = (fecha: string | null) => {
 onMounted(() => {
     obtenerPagos();
 });
+
+const eliminarPago = async (id: number) => {
+    if (!confirm('¿Eliminar este pago? Esta acción no se puede deshacer.')) return;
+
+    try {
+        await axios.delete(`/pagoMensualinquilino/${id}`);
+        pagos.value = pagos.value.filter(p => p.id !== id);
+    } catch (error: any) {
+        console.error(error.response?.data ?? error);
+        alert('No se pudo eliminar el pago. Revisa la consola para más detalles.');
+    }
+};
 
 
 </script>

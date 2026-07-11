@@ -31,7 +31,8 @@ return new class extends Migration
             $table->boolean('agua_pagado')->default(false);
             $table->decimal('monto_luz', 8, 2);
             $table->boolean('luz_pagado')->default(false);
-            $table->boolean('fecha_pagado')->default(false);
+            $table->decimal('mensual_monto', 8, 2);
+            $table->boolean('mensual_pagado')->default(false);
             $table->timestamps();
         });
     }
