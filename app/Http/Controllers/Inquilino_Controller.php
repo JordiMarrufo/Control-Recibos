@@ -132,12 +132,12 @@ class Inquilino_Controller extends Controller
     /**
      * Eliminar un registro.
      */
-    public function destroy(Inquilino $inquilino)
+    public function destroy(Inquilino $inquilinosback)
     {
-        $inquilino->delete();
+        $inquilinosback->delete();
 
         return response()->json([
-            'message' => 'Inquilino eliminado correctamente.'
+            'message' => 'Inquilino eliminado correctamente'
         ]);
     }
 }
