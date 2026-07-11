@@ -23,6 +23,16 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Registro de Inquilinos',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Control de pagos',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
